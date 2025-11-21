@@ -21,7 +21,19 @@ app.use(cors({
 
 // Handle preflight requests
 app.options('*', cors());
-
+app.get("/", (req, res) => {
+    res.json({
+        message: "Bin Data Server is running on Render",
+        status: "active",
+        timestamp: new Date().toISOString(),
+        endpoints: [
+            "POST /sendBinData",
+            "GET /sendBinData",
+            "GET /health",
+            "GET /test"
+        ]
+    });
+});
 // Your endpoint
 app.post("/sendBinData", async (req, res) => {
     try {

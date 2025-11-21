@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CONFIG))
+    credential: admin.credential.cert(require("./sge-parashstone-firebase-adminsdk-fbsvc-a3b75c3f70.json"))
 });
 
 // Middleware
@@ -13,11 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS - Allow all origins
-// app.use(cors({
-//     origin: "*",
-//     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-// }));
+app.use(cors());
 
 // Handle preflight requests
 // app.options('*', cors());

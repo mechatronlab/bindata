@@ -13,14 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS - Allow all origins
-app.use(cors({
-    origin: "*",
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+// app.use(cors({
+//     origin: "*",
+//     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+// }));
 
 // Handle preflight requests
-app.options('*', cors());
+// app.options('*', cors());
 app.get("/", (req, res) => {
     res.json({
         message: "Bin Data Server is running on Render",

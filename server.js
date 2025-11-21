@@ -1,12 +1,12 @@
 const admin = require("firebase-admin");
-var serviceAccount = require("./sge-parashstone-firebase-adminsdk-fbsvc-a3b75c3f70.json");
+// var serviceAccount = require("./sge-parashstone-firebase-adminsdk-fbsvc-a3b75c3f70.json");
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_CONFIG))
 });
 
 // Middleware

@@ -1,12 +1,13 @@
-const admin = require("firebase-admin");
+// const admin = require("firebase-admin");
 const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = 3000;
+const axios = require("axios");
 
-admin.initializeApp({
-    credential: admin.credential.cert(require("./sge-parashstone-firebase-adminsdk-fbsvc-a3b75c3f70.json"))
-});
+// admin.initializeApp({
+//     credential: admin.credential.cert(require("./sge-parashstone-firebase-adminsdk-fbsvc-a3b75c3f70.json"))
+// });
 
 // Middleware
 app.use(express.json());
@@ -40,14 +41,26 @@ app.post("/sendBinData", async (req, res) => {
             req.connection.remoteAddress ||
             null;
 
-        // Store data in Firestore
-        await admin.firestore().collection("BinData").add({
+        await axios.post('https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123', JSON.stringify({
             id: req.params,
             query: req.query,
             body: req.body || {},
             ip: ip,
+            type: "POST",
             ts: Date.now()
+        }), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
+        // Store data in Firestore
+        // await admin.firestore().collection("BinData").add({
+        //     id: req.params,
+        //     query: req.query,
+        //     body: req.body || {},
+        //     ip: ip,
+        //     ts: Date.now()
+        // });
 
         return res.status(200).send({
             success: true,
@@ -72,12 +85,17 @@ app.get("/sendBinData", async (req, res) => {
             req.connection.remoteAddress ||
             null;
 
-        await admin.firestore().collection("BinData").add({
+        await axios.post('https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123', JSON.stringify({
+            id: req.params,
             query: req.query,
-            body: {},
+            body: req.body || {},
             ip: ip,
-            ts: Date.now(),
-            method: "GET"
+            type: "POST",
+            ts: Date.now()
+        }), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
 
         return res.status(200).send({

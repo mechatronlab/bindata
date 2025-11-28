@@ -64,6 +64,7 @@ app.post("/sendBinData", async (req, res) => {
 
         return res.status(200).send({
             success: true,
+            relay: 1,
             message: "Data stored successfully"
         });
     } catch (err) {

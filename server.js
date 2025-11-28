@@ -87,11 +87,11 @@ app.get("/sendBinData/:id", async (req, res) => {
             null;
 
         let map = req.query;
-        map.id = req.params.id || req.query.id || "BIN123";
+        // map.id = req.params.id || req.query.id || "BIN123";
         map.ip = ip;
         map.type = "GET";
         map.ts = Date.now();
-        const respa = await axios.post(`https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/${map.id}`, JSON.stringify(map), {
+        const respa = await axios.post(`https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123`, JSON.stringify(map), {
             headers: {
                 'Content-Type': 'application/json'
             }

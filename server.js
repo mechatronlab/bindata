@@ -101,6 +101,7 @@ app.get("/sendBinData", async (req, res) => {
 
         return res.status(200).send({
             success: true,
+            relay: 1,
             message: "GET data stored successfully"
         });
     } catch (err) {

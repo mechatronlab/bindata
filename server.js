@@ -32,49 +32,49 @@ app.get("/", (req, res) => {
     });
 });
 // Your endpoint
-app.post("/sendBinData", async (req, res) => {
-    try {
-        console.log("Received request body:", req.body);
+// app.post("/sendBinData", async (req, res) => {
+//     try {
+//         console.log("Received request body:", req.body);
 
-        const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() ||
-            req.ip ||
-            req.connection.remoteAddress ||
-            null;
+//         const ip = req.headers['x-forwarded-for']?.split(',')[0].trim() ||
+//             req.ip ||
+//             req.connection.remoteAddress ||
+//             null;
 
-        await axios.post('https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123', JSON.stringify({
-            id: req.params,
-            query: req.query,
-            body: req.body || {},
-            ip: ip,
-            type: "POST",
-            ts: Date.now()
-        }), {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        // Store data in Firestore
-        // await admin.firestore().collection("BinData").add({
-        //     id: req.params,
-        //     query: req.query,
-        //     body: req.body || {},
-        //     ip: ip,
-        //     ts: Date.now()
-        // });
+//         await axios.post('https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123', JSON.stringify({
+//             id: req.params,
+//             query: req.query,
+//             body: req.body || {},
+//             ip: ip,
+//             type: "POST",
+//             ts: Date.now()
+//         }), {
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+//         // Store data in Firestore
+//         // await admin.firestore().collection("BinData").add({
+//         //     id: req.params,
+//         //     query: req.query,
+//         //     body: req.body || {},
+//         //     ip: ip,
+//         //     ts: Date.now()
+//         // });
 
-        return res.status(200).send({
-            success: true,
-            relay: 1,
-            message: "Data stored successfully"
-        });
-    } catch (err) {
-        console.error("Error:", err);
-        return res.status(500).json({
-            success: false,
-            message: `${err}`
-        });
-    }
-});
+//         return res.status(200).send({
+//             success: true,
+//             relay: 1,
+//             message: "Data stored successfully"
+//         });
+//     } catch (err) {
+//         console.error("Error:", err);
+//         return res.status(500).json({
+//             success: false,
+//             message: `${err}`
+//         });
+//     }
+// });
 
 // GET endpoint for testing (optional)
 app.get("/sendBinData/:id", async (req, res) => {
@@ -87,7 +87,7 @@ app.get("/sendBinData/:id", async (req, res) => {
             null;
 
         let map = req.query;
-        map.id = req.params.id
+        map.id = req.params.id || req.query.id || "BIN123";
         map.ip = ip;
         map.type = "GET";
         map.ts = Date.now();
@@ -96,7 +96,6 @@ app.get("/sendBinData/:id", async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-
         return res.status(200).send({
             success: true,
             relay: respa.data.relay || 0,

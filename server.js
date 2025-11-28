@@ -77,7 +77,7 @@ app.get("/", (req, res) => {
 // });
 
 // GET endpoint for testing (optional)
-app.get("/sendBinData/:id", async (req, res) => {
+app.get("/sendBinData", async (req, res) => {
     try {
         console.log("Received GET request with query:", req.query);
 

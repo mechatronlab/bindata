@@ -77,7 +77,7 @@ app.post("/sendBinData", async (req, res) => {
 });
 
 // GET endpoint for testing (optional)
-app.get("/sendBinData", async (req, res) => {
+app.get("/sendBinData/:id", async (req, res) => {
     try {
         console.log("Received GET request with query:", req.query);
 
@@ -86,14 +86,12 @@ app.get("/sendBinData", async (req, res) => {
             req.connection.remoteAddress ||
             null;
 
-        await axios.post('https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/BIN123', JSON.stringify({
-            id: req.params,
-            query: req.query,
-            body: req.body || {},
-            ip: ip,
-            type: "POST",
-            ts: Date.now()
-        }), {
+        let map = req.query;
+        map.id = req.params.id
+        map.ip = ip;
+        map.type = "GET";
+        map.ts = Date.now();
+        const respa = await axios.post(`https://asia-south1-sge-parashstone.cloudfunctions.net/sendBinData/${map.id}`, JSON.stringify(map), {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -101,7 +99,7 @@ app.get("/sendBinData", async (req, res) => {
 
         return res.status(200).send({
             success: true,
-            relay: 1,
+            relay: respa.data.relay || 0,
             message: "GET data stored successfully"
         });
     } catch (err) {
